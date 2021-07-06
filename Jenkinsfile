@@ -45,7 +45,7 @@ podTemplate(label:label,
                 if (exists) {
                     kubeCmd.scale file: 'k8s/deploy.yaml', replicas: '0', namespace: K8S_NAMESPACE
                 }
-                kubeCmd.apply file: 'k8s/deploy.yaml', namespace: K8S_NAMESPACE, wait: 300
+                kubeCmd.apply file: 'k8s/deploy.yaml', namespace: K8S_NAMESPACE, wait: 300, recoverOnFail: true
             }
         }
     }
