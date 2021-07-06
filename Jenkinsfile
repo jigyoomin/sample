@@ -40,7 +40,7 @@ podTemplate(label:label,
         stage('DEPLOY') {
             container('kubectl') {
                 kubeCmd.apply file: 'k8s/service.yaml', namespace: K8S_NAMESPACE
-                yaml.update file: 'k8s/deploy.yaml', update: ['.spec.template.spec.containers[0].image': "${HARBOR_REGISTRY}/${DOCKER_IMAGE}:${VERSION}"]
+                yaml.update file: 'k8s/deploy.yaml', update: ['.spec.template.spec.containers[0].image': "${HARBOR_REGISTRY}/${DOCKER_IMAGE}:XXX"]
                 def exists = kubeCmd.resourceExists file: 'k8s/deploy.yaml', namespace: K8S_NAMESPACE
                 if (exists) {
                     kubeCmd.scale file: 'k8s/deploy.yaml', replicas: '0', namespace: K8S_NAMESPACE
