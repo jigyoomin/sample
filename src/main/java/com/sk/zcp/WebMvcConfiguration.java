@@ -7,8 +7,10 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.util.UrlPathHelper;
 
 import com.sk.zcp.log.MdcLoggingFilter;
 
@@ -33,6 +35,14 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
 				container.addErrorPages(error401Page, error404Page, error500Page);
 			}
 		};
+	}
+
+	@Override
+	public void configurePathMatch(PathMatchConfigurer configurer) {
+		UrlPathHelper urlPathHelper = new UrlPathHelper();
+		urlPathHelper.setUrlDecode(false);
+		configurer.setUrlPathHelper(urlPathHelper);
+
 	}
 	
 	@Bean

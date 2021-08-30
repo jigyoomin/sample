@@ -1,27 +1,44 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hellozcp
+  name: argocd-dummy
   labels:
-    app: hellozcp
+    app: argocd-dummy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hellozcp
+      app.kubernetes.io/instance: platform-argocd
+      app.kubernetes.io/name: argocd-dummy
   template:
     metadata:
       labels:
-        app: hellozcp
+        app.kubernetes.io/instance: platform-argocd
+        app.kubernetes.io/name: argocd-dummy
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: beta.kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
+                  - key: role
+                    operator: In
+                    values:
+                      - management
       containers:
-      - name: hellozcp
-        image: pog-dev-registry.cloudzcp.io/earth1223/hellozcp:develop
+      - name: argocd-dummy
+        image: pog-dev-registry.cloudzcp.io/earth1223/argodummy:develop
         env:
         - name: foo
           value: var2
         ports:
         - containerPort: 8080
+          name: server
+          protocol: TCP
         imagePullPolicy: Always
         readinessProbe:
           failureThreshold: 10 

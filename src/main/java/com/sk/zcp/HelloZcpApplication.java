@@ -40,6 +40,7 @@ public class HelloZcpApplication {
 	private HelloZcpService service;
 	
 	public static void main(String[] args) {
+		System.setProperty("org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH", "true");
 		SpringApplication.run(HelloZcpApplication.class, args);
 	}
 	

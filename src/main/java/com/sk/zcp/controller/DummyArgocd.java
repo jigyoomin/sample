@@ -2,6 +2,8 @@ package com.sk.zcp.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +26,9 @@ public class DummyArgocd {
         return ResponseEntity.ok().header("Content-Type", "application/json").body("{\"metadata\":{},\"items\":[{\"repo\":\"https://git.skn.cloudzcp.net/console/rbac.git\",\"username\":\"console\",\"connectionState\":{\"status\":\"Successful\",\"message\":\"\",\"attemptedAt\":\"2021-08-30T08:00:30Z\"},\"type\":\"git\"},{\"repo\":\"https://v2-zcr.cloudzcp.io/chartrepo/cloudzcp-addon\",\"username\":\"cloudzcp-admin\",\"connectionState\":{\"status\":\"Successful\",\"message\":\"\",\"attemptedAt\":\"2021-08-30T08:00:30Z\"},\"type\":\"helm\",\"name\":\"zcp\"}]}");
     }
 
-    @GetMapping(value = "repositories/{repository}/helmcharts")
-    public ResponseEntity<?> getRepository(@PathVariable String repository) {
-        logger.info("Get helmcharts : {}", repository);
+    @GetMapping(value = "repositories/**/helmcharts")
+    public ResponseEntity<?> getRepository(HttpServletRequest request) {
+        logger.info("Get helmcharts : {}", request.getRequestURI());
         return ResponseEntity.ok().header("Content-Type", "application/json").body("{\"items\":[{\"name\":\"fluent-bit\",\"versions\":[\"0.15.8\"]},{\"name\":\"fluentd\",\"versions\":[\"0.2.7\",\"0.2.4\"]},{\"name\":\"ingress-nginx\",\"versions\":[\"3.27.0\"]},{\"name\":\"prometheus\",\"versions\":[\"13.8.0\"]},{\"name\":\"prometheus-blackbox-exporter\",\"versions\":[\"4.10.2\"]},{\"name\":\"prometheus-k8s-events-exporter\",\"versions\":[\"0.1.3\"]}]}");
     }
 
